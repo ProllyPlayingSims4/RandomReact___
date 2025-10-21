@@ -17,16 +17,17 @@ useEffect(() => {
 const handleOnChange = (value, index) => {
   console.log(value, index);
   if(isNaN(value)) return;
+  const newValue = value.trim();
   const newArray = [...inputArr];
-  newArray[index] = value;
-  newArray[index] = value.slice(-1);
+  //newArray[index] = newValue;
+  newArray[index] = newValue.slice(-1);
   
   setInputArr(newArray);
-  refArray.current[index + 1]?.focus();
+  newValue && refArray.current[index + 1]?.focus();
 }
 const handleOnKeyDown = (e, index) => {
  console.log(e);
- if(e === "Backspace"){
+ if(!e.target.value && e.key === "Backspace"){
   refArray.current[index - 1]?.focus();
  }
 }
@@ -38,7 +39,9 @@ const handleOnKeyDown = (e, index) => {
      
       <div className='flex space-x-2'>
         {inputArr.map((input, index) => (
-           <input className='m-3 text-center text-white text-4xl mt-25 w-24 h-24 bg-blue-400' type="text" placeholder='' key={index} value={inputArr[index]} onChange={e => handleOnChange(e.target.value, index)} ref={(input) => {refArray.current[index] = input} } onKeyDown={(e) => handleOnKeyDown(e, index)} />
+           <input className='m-3 text-center text-white text-4xl mt-25 w-24 h-24 bg-blue-400' 
+           type="text" placeholder='' key={index} value={inputArr[index]} onChange={(e) => handleOnChange(e.target.value, index)} 
+           ref={(input) => {refArray.current[index] = input} } onKeyDown={(e) => handleOnKeyDown(e, index)} />
         // <InputBox key={index} input={inputArr[index]}/>
       ))}
       </div>
